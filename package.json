@@ -6,8 +6,7 @@
   "proxy": "http://localhost:3001",
   "scripts": {
     "start": "node app.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client" 
-   },
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm insall --prefix client && npm run build --prefix client"   },
   "author": "",
   "license": "ISC",
   "dependencies": {
