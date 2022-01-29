@@ -19,7 +19,7 @@ const {
 } = require("express");
 const ObjectId = require('mongodb').ObjectId;
 
-const { SENDGRID_KEY,JWT_SECRET} = require("../config/prod")
+// const { SENDGRID_KEY,JWT_SECRET} = require("../config/keys")
 
 // const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 // const passport = require("passport");
@@ -28,7 +28,7 @@ const { SENDGRID_KEY,JWT_SECRET} = require("../config/prod")
 
 const transport = nodemailer.createTransport(sendgrid({
   auth: {
-    api_key: SENDGRID_KEY
+    api_key: process.env.SENDGRID_KEY
   }
 }));
 
@@ -95,18 +95,15 @@ router.get("/profile", authenticate, (req, res) => {
   return res.json(req.details);
 });
 
-router.put("/like", authenticate, (req, res) => {
+router.put("/like", authenticate, async (req, res) => {
 
   const user = req.details;
 
-  Books.findByIdAndUpdate(req.body.likedId, {
+  await Books.findByIdAndUpdate(req.body.likedId, {
 
     $push: {
       likes: user._id
     },
-
-    //  $pull : {likes :details._id}
-
   }, {
     new: true
   }).exec((err, result) => {
@@ -409,7 +406,7 @@ router.post("/login", async (req, res) => {
 
     const token = jwt.sign({
       _id: existingUser._id
-    },JWT_SECRET)
+    },process.env.JWT_SECRET)
 
     //res.send(existingUser);  
     return res.json({

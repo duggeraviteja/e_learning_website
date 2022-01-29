@@ -133,10 +133,10 @@ function Books(props) {
                       </div>
                       <div>
                         <div>
-                          {" "}
+                          
                           <b className="state-bgm m-1">
                             <span> BookName : </span> {curEle.title}
-                          </b>{" "}
+                          </b>
                         </div>
 
                         <b className="state-bgm m-1 ">

@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const adminUser = require("../db/adminUsersSchema");
 const bcrypt = require("bcryptjs");
 const cookieParser = require("cookie-parser");
-const { JWT_SECRET} = require("../config/prod")
+ // const { JWT_SECRET} = require("../config/keys")
 
 
 
@@ -12,7 +12,7 @@ module.exports  = (req,res,next)=>{
       return res.status(401).json({errorMessage : "You must log in"});
     }
     const  token = authorization.replace("adminauth","");
-    jwt.verify(token,JWT_SECRET,(err,payload)=>{
+    jwt.verify(token,process.env.JWT_SECRET,(err,payload)=>{
       if(err){
         return res.status(401).json({errorMessage :"you must be logged in"});
       }

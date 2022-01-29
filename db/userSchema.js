@@ -3,7 +3,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { ObjectId } = mongoose.Schema.Types;
-const { JWT_SECRET} = require("../config/prod")
+ // const { JWT_SECRET} = require("../config/keys")
 
 const userSchema = new mongoose.Schema({
 
@@ -77,7 +77,7 @@ userSchema.methods.generateAuthToken = async function () {
     try {
         let token = jwt.sign({
             _id: this._id
-        },JWT_SECRET);
+        },process.env.JWT_SECRET);
         console.log(token);
         this.tokens = this.tokens.concat({
             token: token

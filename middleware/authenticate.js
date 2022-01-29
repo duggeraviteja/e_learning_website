@@ -3,7 +3,7 @@ const User = require("../db/userSchema");
 const bcrypt = require("bcryptjs");
 const cookieParser = require("cookie-parser");
 const express = require("express");
-const { JWT_SECRET}  = require("../config/prod");
+ // const { JWT_SECRET}  = require("../config/keys");
 
 
 
@@ -14,7 +14,7 @@ module.exports  = (req,res,next)=>{
     return res.status(401).json({errorMessage : "You must log in"});
   }
   const  token = authorization.replace("Bearer","");
-  jwt.verify(token,JWT_SECRET,(err,payload)=>{
+  jwt.verify(token,process.env.JWT_SECRET,(err,payload)=>{
     if(err){
       return res.status(401).json({errorMessage :"you must be logged in"});
     }

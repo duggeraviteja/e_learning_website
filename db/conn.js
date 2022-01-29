@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const {DB } = require("../config/prod")
+// const { DB } = require("../config/keys")
 
 
 
@@ -8,7 +8,7 @@ const {DB } = require("../config/prod")
 // mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopology: true});
 
 
- mongoose.connect(DB, {
+ mongoose.connect(process.env.DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
