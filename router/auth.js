@@ -64,16 +64,16 @@ router.get('/all-books', async (req, res) => {
 router.get('/books/:id', async (req, res) => {
 
   await Books.findById(req.params.id, (err, element) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).json({
-          errorMessage: " Eroor Occured"
-        });
-      } else {
-        return res.json(element);
-      }
-    })
-    
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        errorMessage: " Eroor Occured"
+      });
+    } else {
+      return res.json(element);
+    }
+  })
+
 
 });
 
@@ -85,11 +85,6 @@ router.get("/del", (req, res) => {
 })
 
 
-
-
-router.get("/", (req, res) => {
-  res.send("home page");
-});
 
 router.get("/profile", authenticate, (req, res) => {
   return res.json(req.details);
@@ -147,8 +142,8 @@ router.put("/comment", authenticate, (req, res) => {
   const newComment = {
     text: req.body.value,
     postedBy: user._id,
-    name : user.username,
-    uploadedDate : Date.now()
+    name: user.username,
+    uploadedDate: Date.now()
   }
   Books.findByIdAndUpdate(req.body.likedId, {
       $push: {
@@ -406,7 +401,7 @@ router.post("/login", async (req, res) => {
 
     const token = jwt.sign({
       _id: existingUser._id
-    },process.env.JWT_SECRET)
+    }, process.env.JWT_SECRET)
 
     //res.send(existingUser);  
     return res.json({
@@ -491,7 +486,7 @@ router.post("/search", async (req, res) => {
     })
     .then((records) => {
 
-     return res.json(records);
+      return res.json(records);
     }).catch((error => {
       return res.json({
         errorMessage: "No Book Found with given Query.",
@@ -630,7 +625,7 @@ router.post("/admin-login", async (req, res) => {
 
     const token = jwt.sign({
       _id: existingUser._id
-    },JWT_SECRET)
+    }, JWT_SECRET)
     // console.log(token);
 
     //res.send(existingUser);  
@@ -671,7 +666,7 @@ router.post("/loginwithgoogle", async (req, res) => {
 
     const token = jwt.sign({
       _id: existingUser._id
-    },JWT_SECRET)
+    }, JWT_SECRET)
 
     //res.send(existingUser);  
     return res.json({
