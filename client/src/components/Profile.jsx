@@ -1,25 +1,23 @@
-import React, {  useState,useEffect } from "react";
+import React, { useState,createContext,useContext, useEffect } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UserContext } from "./App";
+
+
 const Profile = () => {
-
-
   const history = useHistory();
-
-
-  
   const [userdata, setUserdata] = useState({});
-
-
+  const {state,dispatch} = useContext(UserContext);
 
   const hiddenFileInput = React.useRef(null);
   const handleClick = (event) => {
     hiddenFileInput.current.click();
   };
 
+  
   const handleChange = async (event) => {
-    const userimage = event.target.files[0];   
+    const userimage = event.target.files[0];
     const data = new FormData();
     data.append("userimage", userimage);
 
@@ -32,48 +30,49 @@ const Profile = () => {
     })
       .then((res) => res.json())
       .then((result) => {
-      
-
-        if(result.errorMessage){
-          return  toast.error(" Failed to upload pic")
+        if (result.errorMessage) {
+          return toast.error(" Failed to upload pic");
         }
         setUserdata(result);
-        toast.success(" 🎃 Profile pic Updated Successfully")
-        
+        toast.success(" 🎇 Profile pic Updated Successfully");
       });
   };
 
+
+
   useEffect(() => {
+    // const isLogged = async () => {
+    //   await fetch("/profile", {
+    //     method: "GET",
+    //     headers: {
+    //       Authorization: "Bearer" + localStorage.getItem("jwt"),
+    //       "Content-type": "application/json",
+    //     },
+    //     // credentials: "include",
+    //   })
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //       if (data.errorMessage) {
+    //         toast.error(data.errorMessage);
+    //         history.push("/login");
+    //       } else {
+    //         setUserdata(data);
+    //       }
+    //     });
+    // };
 
-    const isLogged = async () => {
+    // isLogged();
 
-      await fetch("/profile", {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer" + localStorage.getItem("jwt"),
-          "Content-type": "application/json",
-        },
-        // credentials: "include",
-      })
-        .then((res) => res.json())
-        .then((data) => {
-  
-          if (data.errorMessage) {
-            toast.error(data.errorMessage);
-            history.push("/login");
-          } else {
-            setUserdata(data);
-  
-          }
-        });
-    };
-
-
-
-    isLogged();
+    setUserdata(state);
   }, [history]);
 
- 
+
+
+
+
+
+
+
 
   return (
     <>
@@ -104,21 +103,18 @@ const Profile = () => {
                             onClick={handleClick}
                             className="btn btn-info"
                           >
-                 
                             <i className="fas fa-edit me-1"></i>Change Image
                           </button>
-                          <form > 
-                          <input
-                            type="file"
-                            ref={hiddenFileInput}
-                            name = "profle"
-                            data-max-size="2048"
-                            onChange={handleChange}
-                            style={{ display: "none" }}
-                          />
-
+                          <form>
+                            <input
+                              type="file"
+                              ref={hiddenFileInput}
+                              name="profle"
+                              data-max-size="2048"
+                              onChange={handleChange}
+                              style={{ display: "none" }}
+                            />
                           </form>
-                         
                         </div>
                       </div>
                     </div>
@@ -138,7 +134,9 @@ const Profile = () => {
                       <div className="col-sm-3">
                         <h6 className="mb-0">Email</h6>
                       </div>
-                      <div className="col-sm-9 text-secondary">{userdata.email}</div>
+                      <div className="col-sm-9 text-secondary">
+                        {userdata.email}
+                      </div>
                     </div>
                     <hr className="hr-line" />
 
@@ -146,13 +144,11 @@ const Profile = () => {
                       <div className="col-sm-3">
                         <h6 className="mb-0">Mobile</h6>
                       </div>
-                      <div className="col-sm-9 text-secondary">{userdata.mobile}</div>
+                      <div className="col-sm-9 text-secondary">
+                        {userdata.mobile}
+                      </div>
                     </div>
                     <hr className="hr-line" />
-
-                    
-
-                    
 
                     <div className="row m-1">
                       <div className="col-sm-3">
@@ -194,19 +190,21 @@ const Profile = () => {
                       </div>
 
                       <div className="col-sm-9 text-secondary">
-                     
-                        {userdata.createdOn} 
+                        {userdata.createdOn}
                       </div>
                     </div>
 
-
                     <hr className="hr-line" />
                     <div className="col-12">
-                      <NavLink exact className="nav-link prof-btn text-center" to="/updateUser" >  Update Account  </NavLink>
-
-                      </div>
-
-
+                      <NavLink
+                        exact
+                        className="nav-link prof-btn text-center"
+                        to="/updateUser"
+                      >
+                        {" "}
+                        Update Account{" "}
+                      </NavLink>
+                    </div>
                   </div>
                 </div>
               </div>

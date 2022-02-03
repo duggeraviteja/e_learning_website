@@ -43,7 +43,9 @@ function Login() {
           localStorage.setItem("jwt", data.token);
           localStorage.setItem("user", JSON.stringify(data.user));
           dispatch({ type: "USER", payload: data.user });
-          toast.success("login Success");
+          //toast.success("login Success");
+          toast.success('Successfully ',  {position: toast.POSITION.BOTTOM_RIGHT , autoClose:3000})
+
           history.push("/");
         }
       });
